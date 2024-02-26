@@ -1,19 +1,33 @@
-# Template Repository
+# Minecraft: Pi Edition Parser
 
-A short description about this project here.
+A small libary for parsing and (***Soon***) creating Minecraft: Pi Edition world files.
 
-## How To Use (GUI)
+## How To Use
 
-Coming Soon.
+* Download `MCPI-Parser-v<version>.jar` from [Releases](https://github.com/BJTMastermind/MCPI-Parser/issues) tab.
+* Add the library into your project.
+* Import `me.bjtmastermind.mcpi_parser.<ChunksDatParser|EntitiesDatParser>` to use.
 
-## How To Use (CLI)
+Example Code:
 
-Coming Soon.
+**Parsing chunks.dat**
+```java
+// Create a new instance of the ChunksDatParser
+ChunksDatParser chunkParser = new ChunksDatParser();
 
-## Minimum \<Language> Version
+// Use the parse method to parse the chunks.dat file. Returns a HashMap of PiChunks
+HashMap<String, PiChunk> chunks = chunkParser.parse("/path/to/chunks.dat");
+```
 
-* \<language> \<version> 
+**Parsing entities.dat**
+```java
+// Create a new instance of the EntitiesDatParser
+EntitiesDatParser entitiesParser = new EntitiesDatParser();
 
-# Screen Shots
+// Use the parse method to parse the entities.dat file.
+entitiesParser.parse("/path/to/chunks.dat");
+```
 
-Coming Soon.
+## Minimum Java Version
+
+* Java 8
