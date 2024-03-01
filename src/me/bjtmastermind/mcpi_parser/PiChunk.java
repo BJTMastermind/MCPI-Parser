@@ -14,8 +14,8 @@ public class PiChunk {
     public PiChunk(int x, int z) {
         this.x = x;
         this.z = z;
-        this.piXPos = x - 128;
-        this.piZPos = z - 128;
+        this.piXPos = (x * 16) - 128;
+        this.piZPos = (z * 16) - 128;
         this.blocks = new byte[16][16][128];
         this.data = new byte[16][16][128 / 2];
         this.skylight = new byte[16][16][128 / 2];
@@ -73,6 +73,6 @@ public class PiChunk {
 
     @Override
     public String toString() {
-        return String.format("PiChunk(x=%d,z=%d)", this.x, this.z, this.piXPos, this.piZPos);
+        return String.format("PiChunk(x=%d,z=%d)", this.x, this.z);
     }
 }
