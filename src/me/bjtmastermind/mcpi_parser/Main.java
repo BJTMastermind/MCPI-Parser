@@ -16,7 +16,8 @@ public class Main {
         ChunksDatParser chunkParser = new ChunksDatParser();
         HashMap<String, PiChunk> chunks = chunkParser.parse("/home/bjtmastermind/.var/app/com.thebrokenrail.MCPIReborn/.minecraft-pi/games/com.mojang/minecraftWorlds/world/chunks.dat");
 
-        System.out.println(chunks+"\n"+chunks.size());
+        // System.out.println(chunks+"\n"+chunks.size());
+        chunkParser.assemble("./chunks.dat", chunks);
 
         /*EntitiesDatParser entitiesParser = new EntitiesDatParser();
         entitiesParser.parse("/home/bjtmastermind/.var/app/com.thebrokenrail.MCPIReborn/.minecraft-pi/games/com.mojang/minecraftWorlds/world/entities_old.dat");
