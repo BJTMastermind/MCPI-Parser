@@ -16,6 +16,14 @@ public class NumberToLEArray {
         return leOutput;
     }
 
+    public static byte[] toLEInt24(int value) {
+        byte[] leOutput = new byte[3];
+        leOutput[0] = (byte) ((value >> 0) & 0xFF);
+        leOutput[1] = (byte) ((value >> 8) & 0xFF);
+        leOutput[2] = (byte) ((value >> 16) & 0xFF);
+        return leOutput;
+    }
+
     public static byte[] toLEInt(int value) {
         byte[] leOutput = new byte[4];
         leOutput[0] = (byte) ((value >> 0) & 0xFF);
