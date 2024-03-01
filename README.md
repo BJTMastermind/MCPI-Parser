@@ -1,6 +1,6 @@
 # Minecraft: Pi Edition Parser
 
-A small libary for parsing and (***Soon***) creating Minecraft: Pi Edition world files.
+A small libary for parsing and creating Minecraft: Pi Edition world files.
 
 ## How To Use
 
@@ -17,6 +17,16 @@ ChunksDatParser chunkParser = new ChunksDatParser();
 
 // Use the parse method to parse the chunks.dat file. Returns a HashMap of PiChunks
 HashMap<String, PiChunk> chunks = chunkParser.parse("/path/to/chunks.dat");
+```
+
+**Assembling chunks.dat**
+```java
+// Create a new instance of the ChunksDatParser
+ChunksDatParser chunkParser = new ChunksDatParser();
+
+// Use the assemble method to create a chunks.dat file.
+HashMap<String, PiChunk> chunks = Example.GenerateChunks();
+chunkParser.assemble("/path/to/chunks.dat", chunks);
 ```
 
 **Parsing entities.dat**
