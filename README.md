@@ -1,10 +1,12 @@
 # Minecraft: Pi Edition Parser
 
-A small libary for parsing and creating Minecraft: Pi Edition world files.
+A small libary for parsing and creating Minecraft: Pi Edition world files.<br>
+
+ *\*This library could also be used for old Minecraft: Pocket Edition 0.2.0 - 0.8.2 world files.\**
 
 ## How To Use
 
-* Download `MCPI-Parser-v<version>.jar` from [Releases](https://github.com/BJTMastermind/MCPI-Parser/issues) tab.
+* Download `MCPI-Parser-v<version>.jar` from [Releases](https://github.com/BJTMastermind/MCPI-Parser/releases) tab.
 * Add the library into your project.
 * Import `me.bjtmastermind.mcpi_parser.<ChunksDatParser|EntitiesDatParser>` to use.
 
@@ -26,7 +28,7 @@ ChunksDatParser chunkParser = new ChunksDatParser();
 
 // Use the assemble method to create a chunks.dat file.
 HashMap<String, PiChunk> chunks = Example.GenerateChunks();
-chunkParser.assemble("/path/to/chunks.dat", chunks);
+chunkParser.assemble("/path/to/output/chunks.dat", chunks);
 ```
 
 **Parsing entities.dat**
