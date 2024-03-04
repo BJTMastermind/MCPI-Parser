@@ -59,4 +59,14 @@ public class PiChest extends PiTileEntity {
 
         return tileEntity;
     }
+
+    public static PiChest fromCompoundTag(CompoundTag nbtTileEntity) {
+        PiChest tileEntity = new PiChest(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+
+        for (CompoundTag nbtItem : nbtTileEntity.getListTag("Items").asCompoundTagList()) {
+            tileEntity.items.add(PiContainerItem.fromCompoundTag(nbtItem));
+        }
+
+        return tileEntity;
+    }
 }

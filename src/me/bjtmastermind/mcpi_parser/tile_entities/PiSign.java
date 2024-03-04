@@ -25,6 +25,9 @@ public class PiSign extends PiTileEntity {
     }
 
     public void setText1(String text) {
+        if (!isValidLength(text)) {
+            trimTextToValidLength(text);
+        }
         this.text1 = text;
     }
 
@@ -33,6 +36,9 @@ public class PiSign extends PiTileEntity {
     }
 
     public void setText2(String text) {
+        if (!isValidLength(text)) {
+            trimTextToValidLength(text);
+        }
         this.text2 = text;
     }
 
@@ -41,6 +47,9 @@ public class PiSign extends PiTileEntity {
     }
 
     public void setText3(String text) {
+        if (!isValidLength(text)) {
+            trimTextToValidLength(text);
+        }
         this.text3 = text;
     }
 
@@ -49,6 +58,9 @@ public class PiSign extends PiTileEntity {
     }
 
     public void setText4(String text) {
+        if (!isValidLength(text)) {
+            trimTextToValidLength(text);
+        }
         this.text4 = text;
     }
 
@@ -65,5 +77,33 @@ public class PiSign extends PiTileEntity {
         tileEntity.put("Text4", this.text4);
 
         return tileEntity;
+    }
+
+    public static PiSign fromCompoundTag(CompoundTag nbtTileEntity) {
+        PiSign tileEntity = new PiSign(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+        tileEntity.text1 = nbtTileEntity.getString("Text1");
+        tileEntity.text2 = nbtTileEntity.getString("Text2");
+        tileEntity.text3 = nbtTileEntity.getString("Text3");
+        tileEntity.text4 = nbtTileEntity.getString("Text4");
+
+        return tileEntity;
+    }
+
+    private boolean isValidLength(String text) {
+        if (text.length() <= 15) {
+            return true;
+        }
+        return false;
+    }
+
+    private String trimTextToValidLength(String text) {
+        String out = text;
+        while (true) {
+            out = out.substring(0, out.length() - 1);
+            if (isValidLength(out)) {
+                break;
+            }
+        }
+        return out;
     }
 }

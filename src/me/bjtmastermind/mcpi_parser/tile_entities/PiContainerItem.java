@@ -1,6 +1,8 @@
 package me.bjtmastermind.mcpi_parser.tile_entities;
 
 import me.bjtmastermind.mcpi_parser.enums.BlockItemType;
+import me.bjtmastermind.mcpi_parser.enums.BlockType;
+import me.bjtmastermind.mcpi_parser.enums.ItemType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 
 public class PiContainerItem {
@@ -65,6 +67,23 @@ public class PiContainerItem {
         item.put("Slot", this.slot);
 
         return item;
+    }
+
+    public static PiContainerItem fromCompoundTag(CompoundTag nbtItem) {
+        if (BlockType.fromID(nbtItem.getShort("id")) != null) {
+            return new PiContainerItem(
+                BlockType.fromID(nbtItem.getShort("id")),
+                nbtItem.getShort("Damage"),
+                nbtItem.getByte("Count"),
+                nbtItem.getByte("Slot")
+            );
+        }
+        return new PiContainerItem(
+            ItemType.fromID(nbtItem.getShort("id")),
+            nbtItem.getShort("Damage"),
+            nbtItem.getByte("Count"),
+            nbtItem.getByte("Slot")
+        );
     }
 
     @Override

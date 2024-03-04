@@ -84,4 +84,17 @@ public class PiFurnace extends PiTileEntity {
 
         return tileEntity;
     }
+
+    public static PiFurnace fromCompoundTag(CompoundTag nbtTileEntity) {
+        PiFurnace tileEntity = new PiFurnace(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+
+        for (CompoundTag nbtItem : nbtTileEntity.getListTag("Items").asCompoundTagList()) {
+            tileEntity.items.add(PiContainerItem.fromCompoundTag(nbtItem));
+        }
+
+        tileEntity.burnTime = nbtTileEntity.getShort("BurnTime");
+        tileEntity.cookTime = nbtTileEntity.getShort("CookTime");
+
+        return tileEntity;
+    }
 }

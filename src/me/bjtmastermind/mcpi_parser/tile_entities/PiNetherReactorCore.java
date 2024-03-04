@@ -55,4 +55,13 @@ public class PiNetherReactorCore extends PiTileEntity {
 
         return tileEntity;
     }
+
+    public static PiNetherReactorCore fromCompoundTag(CompoundTag nbtTileEntity) {
+        PiNetherReactorCore tileEntity = new PiNetherReactorCore(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+        tileEntity.isInitialized = nbtTileEntity.getByte("IsInitialized") == 1 ? true : false;
+        tileEntity.progress = nbtTileEntity.getShort("Progress");
+        tileEntity.hasFinished = nbtTileEntity.getByte("HasFinished") == 1 ? true : false;
+
+        return tileEntity;
+    }
 }
