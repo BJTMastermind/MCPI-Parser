@@ -40,6 +40,25 @@ EntitiesDatParser entitiesParser = new EntitiesDatParser();
 entitiesParser.parse("/path/to/chunks.dat");
 ```
 
+**Assembling entities.dat**
+```java
+// Create a new instance of the EntitiesDatParser
+EntitiesDatParser entitiesParser = new EntitiesDatParser();
+
+// Add a entity to the world.
+ArrayList<PiEntity> entities = entitiesParser.getEntities();
+PiSheep sheep = new PiSheep(64f, 72f, 64f, DyeColor.RED);
+entities.add(sheep);
+
+// Add/Modify a tile entity to the world. (You don't add to the list if it exist already)
+ArrayList<PiTileEntity> tileEntities = entitiesParser.getTileEntities();
+PiSign sign = (PiSign) LocateHelper.locateTileEntity(tileEntities, TileEntityType.SIGN, 64, 72, 64);
+sign.setText2("Hello World!");
+
+// Use the assemble method to create a entities.dat file.
+entitiesParser.assemble("/path/to/output/entities.dat", entities, tileEntities);
+```
+
 ## Minimum Java Version
 
-* Java 8
+* Java 17
