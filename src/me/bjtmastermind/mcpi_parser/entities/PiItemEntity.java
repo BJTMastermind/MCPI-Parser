@@ -2,6 +2,7 @@ package me.bjtmastermind.mcpi_parser.entities;
 
 import me.bjtmastermind.mcpi_parser.enums.EntityType;
 import me.bjtmastermind.mcpi_parser.enums.BlockItemType;
+import me.bjtmastermind.mcpi_parser.enums.BlockType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
@@ -12,6 +13,10 @@ public class PiItemEntity extends PiEntity {
     private short itemId;
     private short itemDamageValue;
     private byte itemCount;
+
+    public PiItemEntity(float x, float y, float z) {
+        this(x, y, z, BlockType.STONE, (byte) 1);
+    }
 
     public PiItemEntity(float x, float y, float z, BlockItemType item) {
         this(x, y, z, item, (byte) 1);
@@ -113,5 +118,28 @@ public class PiItemEntity extends PiEntity {
         entity.put("Item", item);
 
         return entity;
+    }
+
+    public static PiItemEntity fromCompoundTag(CompoundTag entityTag) {
+        ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
+        ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
+        ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
+
+        PiItemEntity outEntity = new PiItemEntity(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
+        outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
+        outEntity.fallDistance = entityTag.getFloat("FallDistance");
+        outEntity.fire = entityTag.getShort("Fire");
+        outEntity.air = entityTag.getShort("Air");
+        outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
+        outEntity.health = entityTag.getShort("Health");
+        outEntity.age = entityTag.getShort("Age");
+
+        CompoundTag nbtItemInfo = entityTag.getCompoundTag("Item");
+        outEntity.itemId = nbtItemInfo.getShort("id");
+        outEntity.itemDamageValue = nbtItemInfo.getShort("Damage");
+        outEntity.itemCount = nbtItemInfo.getByte("Count");
+
+        return outEntity;
     }
 }

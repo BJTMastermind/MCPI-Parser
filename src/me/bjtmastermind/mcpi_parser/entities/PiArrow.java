@@ -135,4 +135,28 @@ public class PiArrow extends PiEntity {
 
         return entity;
     }
+
+    public static PiArrow fromCompoundTag(CompoundTag entityTag) {
+        ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
+        ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
+        ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
+
+        PiArrow outEntity = new PiArrow(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
+        outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
+        outEntity.fallDistance = entityTag.getFloat("FallDistance");
+        outEntity.fire = entityTag.getShort("Fire");
+        outEntity.air = entityTag.getShort("Air");
+        outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
+        outEntity.inTile = entityTag.getByte("inTile");
+        outEntity.inData = entityTag.getByte("inData");
+        outEntity.inGround = entityTag.getByte("inGround") == 1 ? true : false;
+        outEntity.player = entityTag.getByte("player");
+        outEntity.shake = entityTag.getByte("shake");
+        outEntity.xTile = entityTag.getShort("xTile");
+        outEntity.yTile = entityTag.getShort("yTile");
+        outEntity.zTile = entityTag.getShort("zTile");
+
+        return outEntity;
+    }
 }

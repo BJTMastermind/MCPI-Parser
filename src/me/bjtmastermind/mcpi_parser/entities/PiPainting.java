@@ -118,4 +118,31 @@ public class PiPainting extends PiEntity {
 
         return entity;
     }
+
+    public static PiPainting fromCompoundTag(CompoundTag entityTag) {
+        ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
+        ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
+        ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
+
+        PiPainting outEntity = new PiPainting(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
+        outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
+        outEntity.fallDistance = entityTag.getFloat("FallDistance");
+        outEntity.fire = entityTag.getShort("Fire");
+        outEntity.air = entityTag.getShort("Air");
+        outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
+        outEntity.dir = entityTag.getByte("Dir");
+        outEntity.direction = entityTag.getByte("Direction");
+        outEntity.motive = entityTag.getString("Motive");
+        outEntity.tileX = entityTag.getInt("TileX");
+        outEntity.tileY = entityTag.getInt("TileY");
+        outEntity.tileZ = entityTag.getInt("TileZ");
+
+        return outEntity;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("PiPainting(x=%.02ff,y=%.02ff,z=%.02ff,Motive=%s)", this.pos[0], this.pos[1], this.pos[2], this.motive);
+    }
 }
