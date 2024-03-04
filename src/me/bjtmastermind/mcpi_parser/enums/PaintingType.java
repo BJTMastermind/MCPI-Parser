@@ -40,4 +40,13 @@ public enum PaintingType {
     public String getMotiveID() {
         return this.value;
     }
+
+    public static PaintingType fromMotiveID(String id) {
+        for (PaintingType paintingMotive : PaintingType.values()) {
+            if (paintingMotive.getMotiveID().equals(id)) {
+                return paintingMotive;
+            }
+        }
+        return null;
+    }
 }
