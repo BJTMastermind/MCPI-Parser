@@ -20,7 +20,7 @@ import me.bjtmastermind.mcpi_parser.entities.PiFallingTile;
 import me.bjtmastermind.mcpi_parser.entities.PiItemEntity;
 import me.bjtmastermind.mcpi_parser.entities.PiPainting;
 import me.bjtmastermind.mcpi_parser.entities.PiPig;
-import me.bjtmastermind.mcpi_parser.entities.PiPigZombie;
+import me.bjtmastermind.mcpi_parser.entities.PiZombiePigman;
 import me.bjtmastermind.mcpi_parser.entities.PiPrimedTnt;
 import me.bjtmastermind.mcpi_parser.entities.PiSheep;
 import me.bjtmastermind.mcpi_parser.entities.PiSkeleton;
@@ -35,7 +35,7 @@ import me.bjtmastermind.mcpi_parser.tile_entities.PiFurnace;
 import me.bjtmastermind.mcpi_parser.tile_entities.PiNetherReactorCore;
 import me.bjtmastermind.mcpi_parser.tile_entities.PiSign;
 import me.bjtmastermind.mcpi_parser.tile_entities.PiTileEntity;
-import me.bjtmastermind.mcpi_parser.utils.NumberToLEArray;
+import me.bjtmastermind.mcpi_parser.utils.LittleEndianUtils;
 import me.bjtmastermind.nbt.io.NBTUtil;
 import me.bjtmastermind.nbt.io.NamedTag;
 import me.bjtmastermind.nbt.tag.CompoundTag;
@@ -115,9 +115,9 @@ public class EntitiesDatParser {
 
             byte[] nbtBytes = NBTUtil.writeLE(data, false).toByteArray();
 
-            rawOutput.write(NumberToLEArray.toLEInt(5525061));
-            rawOutput.write(NumberToLEArray.toLEInt(1));
-            rawOutput.write(NumberToLEArray.toLEInt(nbtBytes.length));
+            rawOutput.write(LittleEndianUtils.intAsLEByteArray(5525061));
+            rawOutput.write(LittleEndianUtils.intAsLEByteArray(1));
+            rawOutput.write(LittleEndianUtils.intAsLEByteArray(nbtBytes.length));
             rawOutput.write(nbtBytes);
 
             File output = new File(filepath);
@@ -137,7 +137,7 @@ public class EntitiesDatParser {
             case CREEPER -> ((PiCreeper) (entity)).toCompoundTag();
             case SKELETON -> ((PiSkeleton) (entity)).toCompoundTag();
             case SPIDER -> ((PiSpider) (entity)).toCompoundTag();
-            case PIG_ZOMBIE -> ((PiPigZombie) (entity)).toCompoundTag();
+            case ZOMBIE_PIGMAN -> ((PiZombiePigman) (entity)).toCompoundTag();
             case ITEM_ENTITY -> ((PiItemEntity) (entity)).toCompoundTag();
             case PRIMED_TNT -> ((PiPrimedTnt) (entity)).toCompoundTag();
             case FALLING_TILE -> ((PiFallingTile) (entity)).toCompoundTag();
@@ -158,7 +158,7 @@ public class EntitiesDatParser {
             case CREEPER -> PiCreeper.fromCompoundTag(nbtEntity);
             case SKELETON -> PiSkeleton.fromCompoundTag(nbtEntity);
             case SPIDER -> PiSpider.fromCompoundTag(nbtEntity);
-            case PIG_ZOMBIE -> PiPigZombie.fromCompoundTag(nbtEntity);
+            case ZOMBIE_PIGMAN -> PiZombiePigman.fromCompoundTag(nbtEntity);
             case ITEM_ENTITY -> PiItemEntity.fromCompoundTag(nbtEntity);
             case PRIMED_TNT -> PiPrimedTnt.fromCompoundTag(nbtEntity);
             case FALLING_TILE -> PiFallingTile.fromCompoundTag(nbtEntity);
