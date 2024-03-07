@@ -10,8 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
-import me.bjtmastermind.mcpi_parser.utils.MultiDimentionalArrayUtils;
-import me.bjtmastermind.mcpi_parser.utils.NumberToLEArray;
+import me.bjtmastermind.mcpi_parser.utils.ArrayUtils;
+import me.bjtmastermind.mcpi_parser.utils.LittleEndianUtils;
 
 public class ChunksDatParser {
 
@@ -37,62 +37,24 @@ public class ChunksDatParser {
                 PiChunk chunk = new PiChunk(chunkX, chunkZ);
 
                 int bytesCounted = 0;
-                byte[][][] blocks = new byte[16][16][128];
-                for (int x = 0, j = bytesCounted + 4; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        for (int y = 0; y < 128; y++) {
-                            blocks[x][z][y] = chunkData[j];
-                            j++;
-                            bytesCounted++;
-                        }
-                    }
-                }
+
+                byte[][][] blocks = ArrayUtils.read3D(chunkData, bytesCounted + 4, 16, 16, 128);
+                bytesCounted += (16*16*128);
                 chunk.setBlocks(blocks);
 
-                byte[][][] data = new byte[16][16][128 / 2];
-                for (int x = 0, j = bytesCounted + 4; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        for (int y = 0; y < 128 / 2; y++) {
-                            data[x][z][y] = chunkData[j];
-                            j++;
-                            bytesCounted++;
-                        }
-                    }
-                }
+                byte[][][] data = ArrayUtils.read3D(chunkData, bytesCounted + 4, 16, 16, 128 / 2);
+                bytesCounted += (16*16*(128 / 2));
                 chunk.setData(data);
 
-                byte[][][] skylight = new byte[16][16][128 / 2];
-                for (int x = 0, j = bytesCounted + 4; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        for (int y = 0; y < 128 / 2; y++) {
-                            skylight[x][z][y] = chunkData[j];
-                            j++;
-                            bytesCounted++;
-                        }
-                    }
-                }
-                chunk.setSkylight(skylight);
+                byte[][][] skyLight = ArrayUtils.read3D(chunkData, bytesCounted + 4, 16, 16, 128 / 2);
+                bytesCounted += (16*16*(128 / 2));
+                chunk.setSkyLight(skyLight);
 
-                byte[][][] blocklight = new byte[16][16][128 / 2];
-                for (int x = 0, j = bytesCounted + 4; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        for (int y = 0; y < 128 / 2; y++) {
-                            blocklight[x][z][y] = chunkData[j];
-                            j++;
-                            bytesCounted++;
-                        }
-                    }
-                }
-                chunk.setBlockLight(blocklight);
+                byte[][][] blockLight = ArrayUtils.read3D(chunkData, bytesCounted + 4, 16, 16, 128 / 2);
+                bytesCounted += (16*16*(128 / 2));
+                chunk.setBlockLight(blockLight);
 
-                byte[][] biomes = new byte[16][16];
-                for (int x = 0, j = bytesCounted + 4; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        biomes[x][z] = chunkData[j];
-                        j++;
-                        bytesCounted++;
-                    }
-                }
+                byte[][] biomes = ArrayUtils.read2D(chunkData, bytesCounted + 4, 16, 16);
                 chunk.setBiomes(biomes);
 
                 chunks.put(String.format("%d,%d", chunkX, chunkZ), chunk);
@@ -119,12 +81,12 @@ public class ChunksDatParser {
                     PiChunk chunk = chunks.get(String.format("%d,%d", x, z));
 
                     if (chunk == null) {
-                        rawOutput.write(NumberToLEArray.toLEInt(0));
+                        rawOutput.write(LittleEndianUtils.intAsLEByteArray(0));
                         continue;
                     }
 
                     rawOutput.write(21);
-                    rawOutput.write(NumberToLEArray.toLEInt24(sectorsFromStart));
+                    rawOutput.write(LittleEndianUtils.int24AsLEByteArray(sectorsFromStart));
                     sectorsFromStart += 21;
                 }
             }
@@ -138,12 +100,12 @@ public class ChunksDatParser {
                         continue;
                     }
 
-                    rawOutput.write(NumberToLEArray.toLEInt(82180)); // Should always be the same if chunk exists.
-                    MultiDimentionalArrayUtils.write(rawOutput, chunk.getBlocks());
-                    MultiDimentionalArrayUtils.write(rawOutput, chunk.getData());
-                    MultiDimentionalArrayUtils.write(rawOutput, chunk.getSkylight());
-                    MultiDimentionalArrayUtils.write(rawOutput, chunk.getBlockLight());
-                    MultiDimentionalArrayUtils.write(rawOutput, chunk.getBiomes());
+                    rawOutput.write(LittleEndianUtils.intAsLEByteArray(82180)); // Should always be the same if chunk exists.
+                    ArrayUtils.write3D(rawOutput, chunk.getBlocks());
+                    ArrayUtils.write3D(rawOutput, chunk.getData());
+                    ArrayUtils.write3D(rawOutput, chunk.getSkyLight());
+                    ArrayUtils.write3D(rawOutput, chunk.getBlockLight());
+                    ArrayUtils.write2D(rawOutput, chunk.getBiomes());
                     rawOutput.write(new byte[3836]); // extra bytes padding
                 }
             }
