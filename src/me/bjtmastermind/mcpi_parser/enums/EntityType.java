@@ -9,7 +9,7 @@ public enum EntityType {
     CREEPER(33),
     SKELETON(34),
     SPIDER(35),
-    PIG_ZOMBIE(36),
+    ZOMBIE_PIGMAN(36),
     ITEM_ENTITY(64),
     PRIMED_TNT(65),
     FALLING_TILE(66),

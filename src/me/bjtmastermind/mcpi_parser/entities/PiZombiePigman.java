@@ -5,11 +5,11 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiPigZombie extends PiMob {
+public class PiZombiePigman extends PiMob {
     private short anger;
 
-    public PiPigZombie(float x, float y, float z) {
-        this.id = EntityType.PIG_ZOMBIE.getID();
+    public PiZombiePigman(float x, float y, float z) {
+        this.id = EntityType.ZOMBIE_PIGMAN.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -67,12 +67,12 @@ public class PiPigZombie extends PiMob {
         return entity;
     }
 
-    public static PiPigZombie fromCompoundTag(CompoundTag entityTag) {
+    public static PiZombiePigman fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiPigZombie outEntity = new PiPigZombie(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        PiZombiePigman outEntity = new PiZombiePigman(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
