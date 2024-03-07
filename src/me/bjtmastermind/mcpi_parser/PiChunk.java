@@ -7,8 +7,8 @@ public class PiChunk {
     private int piZPos;
     private byte[][][] blocks;
     private byte[][][] data;
-    private byte[][][] skylight;
-    private byte[][][] blocklight;
+    private byte[][][] skyLight;
+    private byte[][][] blockLight;
     private byte[][] biomes;
 
     public PiChunk(int x, int z) {
@@ -18,8 +18,8 @@ public class PiChunk {
         this.piZPos = (z * 16) - 128;
         this.blocks = new byte[16][16][128];
         this.data = new byte[16][16][128 / 2];
-        this.skylight = new byte[16][16][128 / 2];
-        this.blocklight = new byte[16][16][128 / 2];
+        this.skyLight = new byte[16][16][128 / 2];
+        this.blockLight = new byte[16][16][128 / 2];
         this.biomes = new byte[16][16];
     }
 
@@ -47,20 +47,20 @@ public class PiChunk {
         this.data = data;
     }
 
-    public byte[][][] getSkylight() {
-        return this.skylight;
+    public byte[][][] getSkyLight() {
+        return this.skyLight;
     }
 
-    public void setSkylight(byte[][][] skylight) {
-        this.skylight = skylight;
+    public void setSkyLight(byte[][][] skylight) {
+        this.skyLight = skylight;
     }
 
     public byte[][][] getBlockLight() {
-        return this.blocklight;
+        return this.blockLight;
     }
 
     public void setBlockLight(byte[][][] blocklight) {
-        this.blocklight = blocklight;
+        this.blockLight = blocklight;
     }
 
     public byte[][] getBiomes() {
