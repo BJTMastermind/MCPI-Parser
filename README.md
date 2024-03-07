@@ -27,7 +27,7 @@ HashMap<String, Chunk> chunks = chunkParser.parse("/path/to/chunks.dat");
 ChunksDatParser chunkParser = new ChunksDatParser();
 
 // Use the assemble method to create a chunks.dat file.
-HashMap<String, Chunk> chunks = Example.GenerateChunks();
+HashMap<String, Chunk> chunks = Example.generateChunks();
 chunkParser.assemble("/path/to/output/chunks.dat", chunks);
 ```
 
