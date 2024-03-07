@@ -17,8 +17,8 @@ Example Code:
 // Create a new instance of the ChunksDatParser
 ChunksDatParser chunkParser = new ChunksDatParser();
 
-// Use the parse method to parse the chunks.dat file. Returns a HashMap of PiChunks
-HashMap<String, PiChunk> chunks = chunkParser.parse("/path/to/chunks.dat");
+// Use the parse method to parse the chunks.dat file. Returns a HashMap of Chunks
+HashMap<String, Chunk> chunks = chunkParser.parse("/path/to/chunks.dat");
 ```
 
 **Assembling chunks.dat**
@@ -27,7 +27,7 @@ HashMap<String, PiChunk> chunks = chunkParser.parse("/path/to/chunks.dat");
 ChunksDatParser chunkParser = new ChunksDatParser();
 
 // Use the assemble method to create a chunks.dat file.
-HashMap<String, PiChunk> chunks = Example.GenerateChunks();
+HashMap<String, Chunk> chunks = Example.GenerateChunks();
 chunkParser.assemble("/path/to/output/chunks.dat", chunks);
 ```
 
@@ -46,13 +46,13 @@ entitiesParser.parse("/path/to/chunks.dat");
 EntitiesDatParser entitiesParser = new EntitiesDatParser();
 
 // Add a entity to the world.
-ArrayList<PiEntity> entities = entitiesParser.getEntities();
-PiSheep sheep = new PiSheep(64f, 72f, 64f, DyeColor.RED);
+ArrayList<Entity> entities = entitiesParser.getEntities();
+Sheep sheep = new Sheep(64f, 72f, 64f, DyeColor.RED);
 entities.add(sheep);
 
 // Add/Modify a tile entity to the world. (You don't add to the list if it exist already)
-ArrayList<PiTileEntity> tileEntities = entitiesParser.getTileEntities();
-PiSign sign = (PiSign) LocateHelper.locateTileEntity(tileEntities, TileEntityType.SIGN, 64, 72, 64);
+ArrayList<TileEntity> tileEntities = entitiesParser.getTileEntities();
+Sign sign = (Sign) LocateHelper.locateTileEntity(tileEntities, TileEntityType.SIGN, 64, 72, 64);
 sign.setText2("Hello World!");
 
 // Use the assemble method to create a entities.dat file.
