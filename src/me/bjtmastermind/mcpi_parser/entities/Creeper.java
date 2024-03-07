@@ -1,26 +1,14 @@
 package me.bjtmastermind.mcpi_parser.entities;
 
-import me.bjtmastermind.mcpi_parser.enums.BlockType;
 import me.bjtmastermind.mcpi_parser.enums.EntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiFallingTile extends PiEntity {
-    private byte tile;
-    private byte data;
-    private byte time;
+public class Creeper extends Mob {
 
-    public PiFallingTile(float x, float y, float z) {
-        this(x, y, z, BlockType.SAND);
-    }
-
-    public PiFallingTile(float x, float y, float z, BlockType tile) {
-        this(x, y, z, tile, (byte) 0);
-    }
-
-    public PiFallingTile(float x, float y, float z, BlockType tile, byte dataValue) {
-        this.id = EntityType.FALLING_TILE.getID();
+    public Creeper(float x, float y, float z) {
+        this.id = EntityType.CREEPER.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -28,33 +16,10 @@ public class PiFallingTile extends PiEntity {
         this.fire = -1;
         this.air = 300;
         this.onGround = false;
-        this.tile = (byte) tile.getID();
-        this.data = dataValue;
-        this.time = (byte) 1;
-    }
-
-    public byte getTile() {
-        return this.tile;
-    }
-
-    public void setTile(BlockType tile) {
-        this.tile = (byte) tile.getID();
-    }
-
-    public byte getData() {
-        return this.data;
-    }
-
-    public void setData(byte data) {
-        this.data = data;
-    }
-
-    public byte getTime() {
-        return this.time;
-    }
-
-    public void setTime(byte time) {
-        this.time = time;
+        this.attackTime = 0;
+        this.deathTime = 0;
+        this.health = 20;
+        this.hurtTime = 0;
     }
 
     public CompoundTag toCompoundTag() {
@@ -83,28 +48,30 @@ public class PiFallingTile extends PiEntity {
         entity.put("Fire", this.fire);
         entity.put("Air", this.air);
         entity.put("OnGround", (byte) (this.onGround ? 1 : 0));
-        entity.put("Tile", this.tile);
-        entity.put("Data", this.data);
-        entity.put("Time", this.time);
+        entity.put("AttackTime", this.attackTime);
+        entity.put("DeathTime", this.deathTime);
+        entity.put("Health", this.health);
+        entity.put("HurtTime", this.hurtTime);
 
         return entity;
     }
 
-    public static PiFallingTile fromCompoundTag(CompoundTag entityTag) {
+    public static Creeper fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiFallingTile outEntity = new PiFallingTile(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Creeper outEntity = new Creeper(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
         outEntity.fire = entityTag.getShort("Fire");
         outEntity.air = entityTag.getShort("Air");
         outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
-        outEntity.tile = entityTag.getByte("Tile");
-        outEntity.data = entityTag.getByte("Data");
-        outEntity.time = entityTag.getByte("Time");
+        outEntity.attackTime = entityTag.getShort("AttackTime");
+        outEntity.deathTime = entityTag.getShort("DeathTime");
+        outEntity.health = entityTag.getShort("Health");
+        outEntity.hurtTime = entityTag.getShort("HurtTime");
 
         return outEntity;
     }

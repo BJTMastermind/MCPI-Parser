@@ -2,13 +2,13 @@ package me.bjtmastermind.mcpi_parser.tile_entities;
 
 import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
 
-public class PiTileEntity {
+public class TileEntity {
     String id;
     int x;
     int y;
     int z;
 
-    PiTileEntity() {}
+    TileEntity() {}
 
     public String getID() {
         return this.id;

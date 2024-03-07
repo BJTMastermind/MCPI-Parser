@@ -6,10 +6,10 @@ import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiChest extends PiTileEntity {
-    private ArrayList<PiContainerItem> items;
+public class Chest extends TileEntity {
+    private ArrayList<ContainerItem> items;
 
-    public PiChest(int x, int y, int z) {
+    public Chest(int x, int y, int z) {
         this.id = TileEntityType.CHEST.getID();
         this.x = x;
         this.y = y;
@@ -17,7 +17,7 @@ public class PiChest extends PiTileEntity {
         this.items = new ArrayList<>();
     }
 
-    public PiChest(int x, int y, int z, ArrayList<PiContainerItem> items) throws Exception {
+    public Chest(int x, int y, int z, ArrayList<ContainerItem> items) throws Exception {
         this.id = TileEntityType.CHEST.getID();
         this.x = x;
         this.y = y;
@@ -25,18 +25,18 @@ public class PiChest extends PiTileEntity {
         this.setItems(items);
     }
 
-    public ArrayList<PiContainerItem> getItems() {
+    public ArrayList<ContainerItem> getItems() {
         return this.items;
     }
 
-    public void setItems(ArrayList<PiContainerItem> items) throws Exception {
+    public void setItems(ArrayList<ContainerItem> items) throws Exception {
         if (items.size() > 27) {
             throw new Exception("Can only have a maximum of 27 items, "+items.size()+" given.");
         }
         this.items = items;
     }
 
-    public void addItem(PiContainerItem item) throws Exception {
+    public void addItem(ContainerItem item) throws Exception {
         if (items.size() == 27) {
             throw new Exception("Failed to add item, can only have a maximum of 3 items.");
         }
@@ -52,7 +52,7 @@ public class PiChest extends PiTileEntity {
         tileEntity.put("z", this.z);
 
         ListTag<CompoundTag> items = new ListTag<>();
-        for (PiContainerItem item : this.items) {
+        for (ContainerItem item : this.items) {
             items.add(item.toCompoundTag());
         }
         tileEntity.put("Items", items);
@@ -60,11 +60,11 @@ public class PiChest extends PiTileEntity {
         return tileEntity;
     }
 
-    public static PiChest fromCompoundTag(CompoundTag nbtTileEntity) {
-        PiChest tileEntity = new PiChest(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+    public static Chest fromCompoundTag(CompoundTag nbtTileEntity) {
+        Chest tileEntity = new Chest(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
 
         for (CompoundTag nbtItem : nbtTileEntity.getListTag("Items").asCompoundTagList()) {
-            tileEntity.items.add(PiContainerItem.fromCompoundTag(nbtItem));
+            tileEntity.items.add(ContainerItem.fromCompoundTag(nbtItem));
         }
 
         return tileEntity;

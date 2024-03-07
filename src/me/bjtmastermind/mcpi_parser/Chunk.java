@@ -1,6 +1,6 @@
 package me.bjtmastermind.mcpi_parser;
 
-public class PiChunk {
+public class Chunk {
     private int x;
     private int z;
     private int piXPos;
@@ -11,7 +11,7 @@ public class PiChunk {
     private byte[][][] blockLight;
     private byte[][] biomes;
 
-    public PiChunk(int x, int z) {
+    public Chunk(int x, int z) {
         this.x = x;
         this.z = z;
         this.piXPos = (x * 16) - 128;

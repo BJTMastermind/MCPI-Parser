@@ -11,30 +11,30 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import me.bjtmastermind.mcpi_parser.entities.PiArrow;
-import me.bjtmastermind.mcpi_parser.entities.PiChicken;
-import me.bjtmastermind.mcpi_parser.entities.PiCow;
-import me.bjtmastermind.mcpi_parser.entities.PiCreeper;
-import me.bjtmastermind.mcpi_parser.entities.PiEntity;
-import me.bjtmastermind.mcpi_parser.entities.PiFallingTile;
-import me.bjtmastermind.mcpi_parser.entities.PiItemEntity;
-import me.bjtmastermind.mcpi_parser.entities.PiPainting;
-import me.bjtmastermind.mcpi_parser.entities.PiPig;
-import me.bjtmastermind.mcpi_parser.entities.PiZombiePigman;
-import me.bjtmastermind.mcpi_parser.entities.PiPrimedTnt;
-import me.bjtmastermind.mcpi_parser.entities.PiSheep;
-import me.bjtmastermind.mcpi_parser.entities.PiSkeleton;
-import me.bjtmastermind.mcpi_parser.entities.PiSnowball;
-import me.bjtmastermind.mcpi_parser.entities.PiSpider;
-import me.bjtmastermind.mcpi_parser.entities.PiThrownEgg;
-import me.bjtmastermind.mcpi_parser.entities.PiZombie;
+import me.bjtmastermind.mcpi_parser.entities.Arrow;
+import me.bjtmastermind.mcpi_parser.entities.Chicken;
+import me.bjtmastermind.mcpi_parser.entities.Cow;
+import me.bjtmastermind.mcpi_parser.entities.Creeper;
+import me.bjtmastermind.mcpi_parser.entities.Entity;
+import me.bjtmastermind.mcpi_parser.entities.FallingTile;
+import me.bjtmastermind.mcpi_parser.entities.ItemEntity;
+import me.bjtmastermind.mcpi_parser.entities.Painting;
+import me.bjtmastermind.mcpi_parser.entities.Pig;
+import me.bjtmastermind.mcpi_parser.entities.ZombiePigman;
+import me.bjtmastermind.mcpi_parser.entities.PrimedTnt;
+import me.bjtmastermind.mcpi_parser.entities.Sheep;
+import me.bjtmastermind.mcpi_parser.entities.Skeleton;
+import me.bjtmastermind.mcpi_parser.entities.Snowball;
+import me.bjtmastermind.mcpi_parser.entities.Spider;
+import me.bjtmastermind.mcpi_parser.entities.ThrownEgg;
+import me.bjtmastermind.mcpi_parser.entities.Zombie;
 import me.bjtmastermind.mcpi_parser.enums.EntityType;
 import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
-import me.bjtmastermind.mcpi_parser.tile_entities.PiChest;
-import me.bjtmastermind.mcpi_parser.tile_entities.PiFurnace;
-import me.bjtmastermind.mcpi_parser.tile_entities.PiNetherReactorCore;
-import me.bjtmastermind.mcpi_parser.tile_entities.PiSign;
-import me.bjtmastermind.mcpi_parser.tile_entities.PiTileEntity;
+import me.bjtmastermind.mcpi_parser.tile_entities.Chest;
+import me.bjtmastermind.mcpi_parser.tile_entities.Furnace;
+import me.bjtmastermind.mcpi_parser.tile_entities.NetherReactorCore;
+import me.bjtmastermind.mcpi_parser.tile_entities.Sign;
+import me.bjtmastermind.mcpi_parser.tile_entities.TileEntity;
 import me.bjtmastermind.mcpi_parser.utils.LittleEndianUtils;
 import me.bjtmastermind.nbt.io.NBTUtil;
 import me.bjtmastermind.nbt.io.NamedTag;
@@ -46,8 +46,8 @@ public class EntitiesDatParser {
     private int version;
     private int byteCount;
 
-    private ArrayList<PiEntity> entities;
-    private ArrayList<PiTileEntity> tileEntities;
+    private ArrayList<Entity> entities;
+    private ArrayList<TileEntity> tileEntities;
 
     public void parse(String filepath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filepath));
@@ -86,25 +86,25 @@ public class EntitiesDatParser {
         }
     }
 
-    public ArrayList<PiEntity> getEntities() {
+    public ArrayList<Entity> getEntities() {
         return this.entities;
     }
 
-    public ArrayList<PiTileEntity> getTileEntities() {
+    public ArrayList<TileEntity> getTileEntities() {
         return this.tileEntities;
     }
 
-    public void assemble(String filepath, ArrayList<PiEntity> entities, ArrayList<PiTileEntity> tileEntities) {
+    public void assemble(String filepath, ArrayList<Entity> entities, ArrayList<TileEntity> tileEntities) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream rawOutput = new DataOutputStream(baos);
 
         ListTag<CompoundTag> nbtEntities = new ListTag<>();
-        for (PiEntity entity : entities) {
+        for (Entity entity : entities) {
             nbtEntities.add(this.fromEntityClass(entity));
         }
 
         ListTag<CompoundTag> nbtTileEntities = new ListTag<>();
-        for (PiTileEntity tileEntity : tileEntities) {
+        for (TileEntity tileEntity : tileEntities) {
             nbtTileEntities.add(this.fromTileEntityClass(tileEntity));
         }
 
@@ -127,63 +127,63 @@ public class EntitiesDatParser {
         }
     }
 
-    private CompoundTag fromEntityClass(PiEntity entity) {
+    private CompoundTag fromEntityClass(Entity entity) {
         return switch (EntityType.fromID(entity.getID())) {
-            case CHICKEN -> ((PiChicken) (entity)).toCompoundTag();
-            case COW -> ((PiCow) (entity)).toCompoundTag();
-            case PIG -> ((PiPig) (entity)).toCompoundTag();
-            case SHEEP -> ((PiSheep) (entity)).toCompoundTag();
-            case ZOMBIE -> ((PiZombie) (entity)).toCompoundTag();
-            case CREEPER -> ((PiCreeper) (entity)).toCompoundTag();
-            case SKELETON -> ((PiSkeleton) (entity)).toCompoundTag();
-            case SPIDER -> ((PiSpider) (entity)).toCompoundTag();
-            case ZOMBIE_PIGMAN -> ((PiZombiePigman) (entity)).toCompoundTag();
-            case ITEM_ENTITY -> ((PiItemEntity) (entity)).toCompoundTag();
-            case PRIMED_TNT -> ((PiPrimedTnt) (entity)).toCompoundTag();
-            case FALLING_TILE -> ((PiFallingTile) (entity)).toCompoundTag();
-            case ARROW -> ((PiArrow) (entity)).toCompoundTag();
-            case SNOWBALL -> ((PiSnowball) (entity)).toCompoundTag();
-            case THROWN_EGG -> ((PiThrownEgg) (entity)).toCompoundTag();
-            case PAINTING -> ((PiPainting) (entity)).toCompoundTag();
+            case CHICKEN -> ((Chicken) (entity)).toCompoundTag();
+            case COW -> ((Cow) (entity)).toCompoundTag();
+            case PIG -> ((Pig) (entity)).toCompoundTag();
+            case SHEEP -> ((Sheep) (entity)).toCompoundTag();
+            case ZOMBIE -> ((Zombie) (entity)).toCompoundTag();
+            case CREEPER -> ((Creeper) (entity)).toCompoundTag();
+            case SKELETON -> ((Skeleton) (entity)).toCompoundTag();
+            case SPIDER -> ((Spider) (entity)).toCompoundTag();
+            case ZOMBIE_PIGMAN -> ((ZombiePigman) (entity)).toCompoundTag();
+            case ITEM_ENTITY -> ((ItemEntity) (entity)).toCompoundTag();
+            case PRIMED_TNT -> ((PrimedTnt) (entity)).toCompoundTag();
+            case FALLING_TILE -> ((FallingTile) (entity)).toCompoundTag();
+            case ARROW -> ((Arrow) (entity)).toCompoundTag();
+            case SNOWBALL -> ((Snowball) (entity)).toCompoundTag();
+            case THROWN_EGG -> ((ThrownEgg) (entity)).toCompoundTag();
+            case PAINTING -> ((Painting) (entity)).toCompoundTag();
         };
     }
 
-    private PiEntity toEntityClass(CompoundTag nbtEntity) {
+    private Entity toEntityClass(CompoundTag nbtEntity) {
         return switch (EntityType.fromID(nbtEntity.getInt("id"))) {
-            case CHICKEN -> PiChicken.fromCompoundTag(nbtEntity);
-            case COW -> PiCow.fromCompoundTag(nbtEntity);
-            case PIG -> PiPig.fromCompoundTag(nbtEntity);
-            case SHEEP -> PiSheep.fromCompoundTag(nbtEntity);
-            case ZOMBIE -> PiZombie.fromCompoundTag(nbtEntity);
-            case CREEPER -> PiCreeper.fromCompoundTag(nbtEntity);
-            case SKELETON -> PiSkeleton.fromCompoundTag(nbtEntity);
-            case SPIDER -> PiSpider.fromCompoundTag(nbtEntity);
-            case ZOMBIE_PIGMAN -> PiZombiePigman.fromCompoundTag(nbtEntity);
-            case ITEM_ENTITY -> PiItemEntity.fromCompoundTag(nbtEntity);
-            case PRIMED_TNT -> PiPrimedTnt.fromCompoundTag(nbtEntity);
-            case FALLING_TILE -> PiFallingTile.fromCompoundTag(nbtEntity);
-            case ARROW -> PiArrow.fromCompoundTag(nbtEntity);
-            case SNOWBALL -> PiSnowball.fromCompoundTag(nbtEntity);
-            case THROWN_EGG -> PiThrownEgg.fromCompoundTag(nbtEntity);
-            case PAINTING -> PiPainting.fromCompoundTag(nbtEntity);
+            case CHICKEN -> Chicken.fromCompoundTag(nbtEntity);
+            case COW -> Cow.fromCompoundTag(nbtEntity);
+            case PIG -> Pig.fromCompoundTag(nbtEntity);
+            case SHEEP -> Sheep.fromCompoundTag(nbtEntity);
+            case ZOMBIE -> Zombie.fromCompoundTag(nbtEntity);
+            case CREEPER -> Creeper.fromCompoundTag(nbtEntity);
+            case SKELETON -> Skeleton.fromCompoundTag(nbtEntity);
+            case SPIDER -> Spider.fromCompoundTag(nbtEntity);
+            case ZOMBIE_PIGMAN -> ZombiePigman.fromCompoundTag(nbtEntity);
+            case ITEM_ENTITY -> ItemEntity.fromCompoundTag(nbtEntity);
+            case PRIMED_TNT -> PrimedTnt.fromCompoundTag(nbtEntity);
+            case FALLING_TILE -> FallingTile.fromCompoundTag(nbtEntity);
+            case ARROW -> Arrow.fromCompoundTag(nbtEntity);
+            case SNOWBALL -> Snowball.fromCompoundTag(nbtEntity);
+            case THROWN_EGG -> ThrownEgg.fromCompoundTag(nbtEntity);
+            case PAINTING -> Painting.fromCompoundTag(nbtEntity);
         };
     }
 
-    private CompoundTag fromTileEntityClass(PiTileEntity tileEntity) {
+    private CompoundTag fromTileEntityClass(TileEntity tileEntity) {
         return switch (TileEntityType.fromID(tileEntity.getID())) {
-            case FURNACE -> ((PiFurnace) tileEntity).toCompoundTag();
-            case CHEST -> ((PiChest) tileEntity).toCompoundTag();
-            case SIGN -> ((PiSign) tileEntity).toCompoundTag();
-            case NETHER_REACTOR_CORE -> ((PiNetherReactorCore) tileEntity).toCompoundTag();
+            case FURNACE -> ((Furnace) tileEntity).toCompoundTag();
+            case CHEST -> ((Chest) tileEntity).toCompoundTag();
+            case SIGN -> ((Sign) tileEntity).toCompoundTag();
+            case NETHER_REACTOR_CORE -> ((NetherReactorCore) tileEntity).toCompoundTag();
         };
     }
 
-    private PiTileEntity toTileEntityClass(CompoundTag nbtTileEntity) {
+    private TileEntity toTileEntityClass(CompoundTag nbtTileEntity) {
         return switch (TileEntityType.fromID(nbtTileEntity.getString("id"))) {
-            case FURNACE -> PiFurnace.fromCompoundTag(nbtTileEntity);
-            case CHEST -> PiChest.fromCompoundTag(nbtTileEntity);
-            case SIGN -> PiSign.fromCompoundTag(nbtTileEntity);
-            case NETHER_REACTOR_CORE -> PiNetherReactorCore.fromCompoundTag(nbtTileEntity);
+            case FURNACE -> Furnace.fromCompoundTag(nbtTileEntity);
+            case CHEST -> Chest.fromCompoundTag(nbtTileEntity);
+            case SIGN -> Sign.fromCompoundTag(nbtTileEntity);
+            case NETHER_REACTOR_CORE -> NetherReactorCore.fromCompoundTag(nbtTileEntity);
         };
     }
 }

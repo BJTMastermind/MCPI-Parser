@@ -6,15 +6,15 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiSheep extends PiAnimal {
+public class Sheep extends Animal {
     private boolean sheard;
     private byte color;
 
-    public PiSheep(float x, float y, float z) {
+    public Sheep(float x, float y, float z) {
         this(x, y, z, DyeColor.WHITE);
     }
 
-    public PiSheep(float x, float y, float z, DyeColor color) {
+    public Sheep(float x, float y, float z, DyeColor color) {
         this.id = EntityType.SHEEP.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
@@ -85,12 +85,12 @@ public class PiSheep extends PiAnimal {
         return entity;
     }
 
-    public static PiSheep fromCompoundTag(CompoundTag entityTag) {
+    public static Sheep fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiSheep outEntity = new PiSheep(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Sheep outEntity = new Sheep(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");

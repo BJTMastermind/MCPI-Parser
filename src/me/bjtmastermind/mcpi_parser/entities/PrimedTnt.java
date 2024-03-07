@@ -5,10 +5,15 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiSkeleton extends PiMob {
+public class PrimedTnt extends Entity {
+    private byte fuse;
 
-    public PiSkeleton(float x, float y, float z) {
-        this.id = EntityType.SKELETON.getID();
+    public PrimedTnt(float x, float y, float z) {
+        this(x, y, z, (byte) 80);
+    }
+
+    public PrimedTnt(float x, float y, float z, byte fuse) {
+        this.id = EntityType.PRIMED_TNT.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -16,10 +21,15 @@ public class PiSkeleton extends PiMob {
         this.fire = -1;
         this.air = 300;
         this.onGround = false;
-        this.attackTime = 0;
-        this.deathTime = 0;
-        this.health = 20;
-        this.hurtTime = 0;
+        this.fuse = fuse;
+    }
+
+    public byte getFuse() {
+        return this.fuse;
+    }
+
+    public void setFuse(byte fuse) {
+        this.fuse = fuse;
     }
 
     public CompoundTag toCompoundTag() {
@@ -48,30 +58,24 @@ public class PiSkeleton extends PiMob {
         entity.put("Fire", this.fire);
         entity.put("Air", this.air);
         entity.put("OnGround", (byte) (this.onGround ? 1 : 0));
-        entity.put("AttackTime", this.attackTime);
-        entity.put("DeathTime", this.deathTime);
-        entity.put("Health", this.health);
-        entity.put("HurtTime", this.hurtTime);
+        entity.put("Fuse", this.fuse);
 
         return entity;
     }
 
-    public static PiSkeleton fromCompoundTag(CompoundTag entityTag) {
+    public static PrimedTnt fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiSkeleton outEntity = new PiSkeleton(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        PrimedTnt outEntity = new PrimedTnt(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
         outEntity.fire = entityTag.getShort("Fire");
         outEntity.air = entityTag.getShort("Air");
         outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
-        outEntity.attackTime = entityTag.getShort("AttackTime");
-        outEntity.deathTime = entityTag.getShort("DeathTime");
-        outEntity.health = entityTag.getShort("Health");
-        outEntity.hurtTime = entityTag.getShort("HurtTime");
+        outEntity.fuse = entityTag.getByte("Fuse");
 
         return outEntity;
     }

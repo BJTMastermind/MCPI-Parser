@@ -5,21 +5,21 @@ import me.bjtmastermind.mcpi_parser.enums.BlockType;
 import me.bjtmastermind.mcpi_parser.enums.ItemType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 
-public class PiContainerItem {
+public class ContainerItem {
     private short id;
     private short damageValue;
     private byte count;
     private byte slot;
 
-    public PiContainerItem(BlockItemType id, byte slot) {
+    public ContainerItem(BlockItemType id, byte slot) {
         this(id, (byte) 1, slot);
     }
 
-    public PiContainerItem(BlockItemType id, byte count, byte slot) {
+    public ContainerItem(BlockItemType id, byte count, byte slot) {
         this(id, (short) 0, count, slot);
     }
 
-    public PiContainerItem(BlockItemType id, short damage, byte count, byte slot) {
+    public ContainerItem(BlockItemType id, short damage, byte count, byte slot) {
         this.id = (short) id.getID();
         this.damageValue = damage;
         this.count = count;
@@ -69,16 +69,16 @@ public class PiContainerItem {
         return item;
     }
 
-    public static PiContainerItem fromCompoundTag(CompoundTag nbtItem) {
+    public static ContainerItem fromCompoundTag(CompoundTag nbtItem) {
         if (BlockType.fromID(nbtItem.getShort("id")) != null) {
-            return new PiContainerItem(
+            return new ContainerItem(
                 BlockType.fromID(nbtItem.getShort("id")),
                 nbtItem.getShort("Damage"),
                 nbtItem.getByte("Count"),
                 nbtItem.getByte("Slot")
             );
         }
-        return new PiContainerItem(
+        return new ContainerItem(
             ItemType.fromID(nbtItem.getShort("id")),
             nbtItem.getShort("Damage"),
             nbtItem.getByte("Count"),

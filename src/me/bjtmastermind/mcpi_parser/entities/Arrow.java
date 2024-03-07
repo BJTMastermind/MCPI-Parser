@@ -5,7 +5,7 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiArrow extends PiEntity {
+public class Arrow extends Entity {
     private byte inTile;
     private byte inData;
     private boolean inGround;
@@ -15,7 +15,7 @@ public class PiArrow extends PiEntity {
     private short yTile;
     private short zTile;
 
-    public PiArrow(float x, float y, float z) {
+    public Arrow(float x, float y, float z) {
         this.id = EntityType.ARROW.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
@@ -136,12 +136,12 @@ public class PiArrow extends PiEntity {
         return entity;
     }
 
-    public static PiArrow fromCompoundTag(CompoundTag entityTag) {
+    public static Arrow fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiArrow outEntity = new PiArrow(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Arrow outEntity = new Arrow(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");

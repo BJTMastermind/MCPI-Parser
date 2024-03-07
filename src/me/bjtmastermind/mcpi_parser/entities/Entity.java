@@ -1,6 +1,6 @@
 package me.bjtmastermind.mcpi_parser.entities;
 
-public class PiEntity {
+public class Entity {
     int id;
     float[] pos;
     float[] motion;
@@ -10,7 +10,7 @@ public class PiEntity {
     short air;
     boolean onGround;
 
-    PiEntity() {}
+    Entity() {}
 
     public int getID() {
         return this.id;

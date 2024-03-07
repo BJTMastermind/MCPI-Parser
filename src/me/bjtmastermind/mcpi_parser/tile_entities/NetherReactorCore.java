@@ -3,12 +3,12 @@ package me.bjtmastermind.mcpi_parser.tile_entities;
 import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 
-public class PiNetherReactorCore extends PiTileEntity {
+public class NetherReactorCore extends TileEntity {
     private boolean isInitialized;
     private short progress;
     private boolean hasFinished;
 
-    public PiNetherReactorCore(int x, int y, int z) {
+    public NetherReactorCore(int x, int y, int z) {
         this.id = TileEntityType.NETHER_REACTOR_CORE.getID();
         this.x = x;
         this.y = y;
@@ -56,8 +56,8 @@ public class PiNetherReactorCore extends PiTileEntity {
         return tileEntity;
     }
 
-    public static PiNetherReactorCore fromCompoundTag(CompoundTag nbtTileEntity) {
-        PiNetherReactorCore tileEntity = new PiNetherReactorCore(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+    public static NetherReactorCore fromCompoundTag(CompoundTag nbtTileEntity) {
+        NetherReactorCore tileEntity = new NetherReactorCore(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
         tileEntity.isInitialized = nbtTileEntity.getByte("IsInitialized") == 1 ? true : false;
         tileEntity.progress = nbtTileEntity.getShort("Progress");
         tileEntity.hasFinished = nbtTileEntity.getByte("HasFinished") == 1 ? true : false;

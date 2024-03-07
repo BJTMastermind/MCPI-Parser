@@ -7,26 +7,26 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiItemEntity extends PiEntity {
+public class ItemEntity extends Entity {
     private short health;
     private short age;
     private short itemId;
     private short itemDamageValue;
     private byte itemCount;
 
-    public PiItemEntity(float x, float y, float z) {
+    public ItemEntity(float x, float y, float z) {
         this(x, y, z, BlockType.STONE, (byte) 1);
     }
 
-    public PiItemEntity(float x, float y, float z, BlockItemType item) {
+    public ItemEntity(float x, float y, float z, BlockItemType item) {
         this(x, y, z, item, (byte) 1);
     }
 
-    public PiItemEntity(float x, float y, float z, BlockItemType item, byte count) {
+    public ItemEntity(float x, float y, float z, BlockItemType item, byte count) {
         this(x, y, z, item, (short) 0, count);
     }
 
-    public PiItemEntity(float x, float y, float z, BlockItemType item, short damageValue, byte count) {
+    public ItemEntity(float x, float y, float z, BlockItemType item, short damageValue, byte count) {
         this.id = EntityType.ITEM_ENTITY.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
@@ -120,12 +120,12 @@ public class PiItemEntity extends PiEntity {
         return entity;
     }
 
-    public static PiItemEntity fromCompoundTag(CompoundTag entityTag) {
+    public static ItemEntity fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiItemEntity outEntity = new PiItemEntity(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        ItemEntity outEntity = new ItemEntity(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");

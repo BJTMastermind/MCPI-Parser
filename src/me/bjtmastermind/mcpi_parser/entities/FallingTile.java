@@ -1,19 +1,26 @@
 package me.bjtmastermind.mcpi_parser.entities;
 
+import me.bjtmastermind.mcpi_parser.enums.BlockType;
 import me.bjtmastermind.mcpi_parser.enums.EntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiPrimedTnt extends PiEntity {
-    private byte fuse;
+public class FallingTile extends Entity {
+    private byte tile;
+    private byte data;
+    private byte time;
 
-    public PiPrimedTnt(float x, float y, float z) {
-        this(x, y, z, (byte) 80);
+    public FallingTile(float x, float y, float z) {
+        this(x, y, z, BlockType.SAND);
     }
 
-    public PiPrimedTnt(float x, float y, float z, byte fuse) {
-        this.id = EntityType.PRIMED_TNT.getID();
+    public FallingTile(float x, float y, float z, BlockType tile) {
+        this(x, y, z, tile, (byte) 0);
+    }
+
+    public FallingTile(float x, float y, float z, BlockType tile, byte dataValue) {
+        this.id = EntityType.FALLING_TILE.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -21,15 +28,33 @@ public class PiPrimedTnt extends PiEntity {
         this.fire = -1;
         this.air = 300;
         this.onGround = false;
-        this.fuse = fuse;
+        this.tile = (byte) tile.getID();
+        this.data = dataValue;
+        this.time = (byte) 1;
     }
 
-    public byte getFuse() {
-        return this.fuse;
+    public byte getTile() {
+        return this.tile;
     }
 
-    public void setFuse(byte fuse) {
-        this.fuse = fuse;
+    public void setTile(BlockType tile) {
+        this.tile = (byte) tile.getID();
+    }
+
+    public byte getData() {
+        return this.data;
+    }
+
+    public void setData(byte data) {
+        this.data = data;
+    }
+
+    public byte getTime() {
+        return this.time;
+    }
+
+    public void setTime(byte time) {
+        this.time = time;
     }
 
     public CompoundTag toCompoundTag() {
@@ -58,24 +83,28 @@ public class PiPrimedTnt extends PiEntity {
         entity.put("Fire", this.fire);
         entity.put("Air", this.air);
         entity.put("OnGround", (byte) (this.onGround ? 1 : 0));
-        entity.put("Fuse", this.fuse);
+        entity.put("Tile", this.tile);
+        entity.put("Data", this.data);
+        entity.put("Time", this.time);
 
         return entity;
     }
 
-    public static PiPrimedTnt fromCompoundTag(CompoundTag entityTag) {
+    public static FallingTile fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiPrimedTnt outEntity = new PiPrimedTnt(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        FallingTile outEntity = new FallingTile(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
         outEntity.fire = entityTag.getShort("Fire");
         outEntity.air = entityTag.getShort("Air");
         outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
-        outEntity.fuse = entityTag.getByte("Fuse");
+        outEntity.tile = entityTag.getByte("Tile");
+        outEntity.data = entityTag.getByte("Data");
+        outEntity.time = entityTag.getByte("Time");
 
         return outEntity;
     }

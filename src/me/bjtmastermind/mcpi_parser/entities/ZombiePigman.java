@@ -5,10 +5,11 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiSpider extends PiMob {
+public class ZombiePigman extends Mob {
+    private short anger;
 
-    public PiSpider(float x, float y, float z) {
-        this.id = EntityType.SPIDER.getID();
+    public ZombiePigman(float x, float y, float z) {
+        this.id = EntityType.ZOMBIE_PIGMAN.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -18,8 +19,17 @@ public class PiSpider extends PiMob {
         this.onGround = false;
         this.attackTime = 0;
         this.deathTime = 0;
-        this.health = 16;
+        this.health = 20;
         this.hurtTime = 0;
+        this.anger = 0;
+    }
+
+    public short getAnger() {
+        return this.anger;
+    }
+
+    public void setAnger(short anger) {
+        this.anger = anger;
     }
 
     public CompoundTag toCompoundTag() {
@@ -52,16 +62,17 @@ public class PiSpider extends PiMob {
         entity.put("DeathTime", this.deathTime);
         entity.put("Health", this.health);
         entity.put("HurtTime", this.hurtTime);
+        entity.put("Anger", this.anger);
 
         return entity;
     }
 
-    public static PiSpider fromCompoundTag(CompoundTag entityTag) {
+    public static ZombiePigman fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiSpider outEntity = new PiSpider(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        ZombiePigman outEntity = new ZombiePigman(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
@@ -72,6 +83,7 @@ public class PiSpider extends PiMob {
         outEntity.deathTime = entityTag.getShort("DeathTime");
         outEntity.health = entityTag.getShort("Health");
         outEntity.hurtTime = entityTag.getShort("HurtTime");
+        outEntity.anger = entityTag.getShort("Anger");
 
         return outEntity;
     }

@@ -5,11 +5,16 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiZombiePigman extends PiMob {
-    private short anger;
+public class ThrownEgg extends Entity {
+    private byte inTile;
+    private boolean inGround;
+    private byte shake;
+    private short xTile;
+    private short yTile;
+    private short zTile;
 
-    public PiZombiePigman(float x, float y, float z) {
-        this.id = EntityType.ZOMBIE_PIGMAN.getID();
+    public ThrownEgg(float x, float y, float z) {
+        this.id = EntityType.THROWN_EGG.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -17,19 +22,60 @@ public class PiZombiePigman extends PiMob {
         this.fire = -1;
         this.air = 300;
         this.onGround = false;
-        this.attackTime = 0;
-        this.deathTime = 0;
-        this.health = 20;
-        this.hurtTime = 0;
-        this.anger = 0;
+        this.inTile = 0;
+        this.inGround = false;
+        this.shake = 0;
+        this.xTile = 0;
+        this.yTile = 0;
+        this.zTile = 0;
     }
 
-    public short getAnger() {
-        return this.anger;
+    public byte getInTile() {
+        return this.inTile;
     }
 
-    public void setAnger(short anger) {
-        this.anger = anger;
+    public void setInTile(byte inTile) {
+        this.inTile = inTile;
+    }
+
+    public boolean getInGround() {
+        return this.inGround;
+    }
+
+    public void setInGround(boolean inGround) {
+        this.inGround = inGround;
+    }
+
+    public byte getShake() {
+        return this.shake;
+    }
+
+    public void setShake(byte shake) {
+        this.shake = shake;
+    }
+
+    public short getXTile() {
+        return this.xTile;
+    }
+
+    public void setXTile(short xTile) {
+        this.xTile = xTile;
+    }
+
+    public short getYTile() {
+        return this.yTile;
+    }
+
+    public void setYTile(short yTile) {
+        this.yTile = yTile;
+    }
+
+    public short getZTile() {
+        return this.zTile;
+    }
+
+    public void setZTile(short zTile) {
+        this.zTile = zTile;
     }
 
     public CompoundTag toCompoundTag() {
@@ -58,32 +104,34 @@ public class PiZombiePigman extends PiMob {
         entity.put("Fire", this.fire);
         entity.put("Air", this.air);
         entity.put("OnGround", (byte) (this.onGround ? 1 : 0));
-        entity.put("AttackTime", this.attackTime);
-        entity.put("DeathTime", this.deathTime);
-        entity.put("Health", this.health);
-        entity.put("HurtTime", this.hurtTime);
-        entity.put("Anger", this.anger);
+        entity.put("inTile", this.inTile);
+        entity.put("inGround", this.inGround ? 1 : 0);
+        entity.put("shake", this.shake);
+        entity.put("xTile", this.xTile);
+        entity.put("yTile", this.yTile);
+        entity.put("zTile", this.zTile);
 
         return entity;
     }
 
-    public static PiZombiePigman fromCompoundTag(CompoundTag entityTag) {
+    public static ThrownEgg fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiZombiePigman outEntity = new PiZombiePigman(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        ThrownEgg outEntity = new ThrownEgg(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
         outEntity.fire = entityTag.getShort("Fire");
         outEntity.air = entityTag.getShort("Air");
         outEntity.onGround = entityTag.getByte("OnGround") == 1 ? true : false;
-        outEntity.attackTime = entityTag.getShort("AttackTime");
-        outEntity.deathTime = entityTag.getShort("DeathTime");
-        outEntity.health = entityTag.getShort("Health");
-        outEntity.hurtTime = entityTag.getShort("HurtTime");
-        outEntity.anger = entityTag.getShort("Anger");
+        outEntity.inTile = entityTag.getByte("inTile");
+        outEntity.inGround = entityTag.getByte("inGround") == 1 ? true : false;
+        outEntity.shake = entityTag.getByte("shake");
+        outEntity.xTile = entityTag.getShort("xTile");
+        outEntity.yTile = entityTag.getShort("yTile");
+        outEntity.zTile = entityTag.getShort("zTile");
 
         return outEntity;
     }

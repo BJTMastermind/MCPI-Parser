@@ -6,12 +6,12 @@ import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiFurnace extends PiTileEntity {
-    private ArrayList<PiContainerItem> items;
+public class Furnace extends TileEntity {
+    private ArrayList<ContainerItem> items;
     private short burnTime;
     private short cookTime;
 
-    public PiFurnace(int x, int y, int z) {
+    public Furnace(int x, int y, int z) {
         this.id = TileEntityType.FURNACE.getID();
         this.x = x;
         this.y = y;
@@ -21,7 +21,7 @@ public class PiFurnace extends PiTileEntity {
         this.cookTime = 0;
     }
 
-    public PiFurnace(int x, int y, int z, ArrayList<PiContainerItem> items) throws Exception {
+    public Furnace(int x, int y, int z, ArrayList<ContainerItem> items) throws Exception {
         this.id = TileEntityType.FURNACE.getID();
         this.x = x;
         this.y = y;
@@ -31,18 +31,18 @@ public class PiFurnace extends PiTileEntity {
         this.cookTime = 0;
     }
 
-    public ArrayList<PiContainerItem> getItems() {
+    public ArrayList<ContainerItem> getItems() {
         return this.items;
     }
 
-    public void setItems(ArrayList<PiContainerItem> items) throws Exception {
+    public void setItems(ArrayList<ContainerItem> items) throws Exception {
         if (items.size() > 3) {
             throw new Exception("Can only have a maximum of 3 items, "+items.size()+" given.");
         }
         this.items = items;
     }
 
-    public void addItem(PiContainerItem item) throws Exception {
+    public void addItem(ContainerItem item) throws Exception {
         if (items.size() == 3) {
             throw new Exception("Failed to add item, can only have a maximum of 3 items.");
         }
@@ -74,7 +74,7 @@ public class PiFurnace extends PiTileEntity {
         tileEntity.put("z", this.z);
 
         ListTag<CompoundTag> items = new ListTag<>();
-        for (PiContainerItem item : this.items) {
+        for (ContainerItem item : this.items) {
             items.add(item.toCompoundTag());
         }
         tileEntity.put("Items", items);
@@ -85,11 +85,11 @@ public class PiFurnace extends PiTileEntity {
         return tileEntity;
     }
 
-    public static PiFurnace fromCompoundTag(CompoundTag nbtTileEntity) {
-        PiFurnace tileEntity = new PiFurnace(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+    public static Furnace fromCompoundTag(CompoundTag nbtTileEntity) {
+        Furnace tileEntity = new Furnace(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
 
         for (CompoundTag nbtItem : nbtTileEntity.getListTag("Items").asCompoundTagList()) {
-            tileEntity.items.add(PiContainerItem.fromCompoundTag(nbtItem));
+            tileEntity.items.add(ContainerItem.fromCompoundTag(nbtItem));
         }
 
         tileEntity.burnTime = nbtTileEntity.getShort("BurnTime");

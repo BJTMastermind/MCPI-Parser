@@ -5,9 +5,9 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiChicken extends PiAnimal {
+public class Chicken extends Animal {
 
-    public PiChicken(float x, float y, float z) {
+    public Chicken(float x, float y, float z) {
         this.id = EntityType.CHICKEN.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
@@ -58,12 +58,12 @@ public class PiChicken extends PiAnimal {
         return entity;
     }
 
-    public static PiChicken fromCompoundTag(CompoundTag entityTag) {
+    public static Chicken fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiChicken outEntity = new PiChicken(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Chicken outEntity = new Chicken(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");

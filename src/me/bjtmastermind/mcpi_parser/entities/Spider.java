@@ -5,10 +5,10 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiCow extends PiAnimal {
+public class Spider extends Mob {
 
-    public PiCow(float x, float y, float z) {
-        this.id = EntityType.COW.getID();
+    public Spider(float x, float y, float z) {
+        this.id = EntityType.SPIDER.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
         this.rotation = new float[2];
@@ -18,9 +18,8 @@ public class PiCow extends PiAnimal {
         this.onGround = false;
         this.attackTime = 0;
         this.deathTime = 0;
-        this.health = 10;
+        this.health = 16;
         this.hurtTime = 0;
-        this.age = 0;
     }
 
     public CompoundTag toCompoundTag() {
@@ -53,17 +52,16 @@ public class PiCow extends PiAnimal {
         entity.put("DeathTime", this.deathTime);
         entity.put("Health", this.health);
         entity.put("HurtTime", this.hurtTime);
-        entity.put("Age", this.age);
 
         return entity;
     }
 
-    public static PiCow fromCompoundTag(CompoundTag entityTag) {
+    public static Spider fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiCow outEntity = new PiCow(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Spider outEntity = new Spider(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");
@@ -74,7 +72,6 @@ public class PiCow extends PiAnimal {
         outEntity.deathTime = entityTag.getShort("DeathTime");
         outEntity.health = entityTag.getShort("Health");
         outEntity.hurtTime = entityTag.getShort("HurtTime");
-        outEntity.age = entityTag.getInt("Age");
 
         return outEntity;
     }

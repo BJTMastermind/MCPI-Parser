@@ -5,7 +5,7 @@ import me.bjtmastermind.nbt.tag.CompoundTag;
 import me.bjtmastermind.nbt.tag.FloatTag;
 import me.bjtmastermind.nbt.tag.ListTag;
 
-public class PiSnowball extends PiEntity {
+public class Snowball extends Entity {
     private byte inTile;
     private boolean inGround;
     private byte shake;
@@ -13,7 +13,7 @@ public class PiSnowball extends PiEntity {
     private short yTile;
     private short zTile;
 
-    public PiSnowball(float x, float y, float z) {
+    public Snowball(float x, float y, float z) {
         this.id = EntityType.SNOWBALL.getID();
         this.pos = new float[] {x, y, z};
         this.motion = new float[3];
@@ -114,12 +114,12 @@ public class PiSnowball extends PiEntity {
         return entity;
     }
 
-    public static PiSnowball fromCompoundTag(CompoundTag entityTag) {
+    public static Snowball fromCompoundTag(CompoundTag entityTag) {
         ListTag<FloatTag> pos = entityTag.getListTag("Pos").asFloatTagList();
         ListTag<FloatTag> motion = entityTag.getListTag("Motion").asFloatTagList();
         ListTag<FloatTag> rotation = entityTag.getListTag("Rotation").asFloatTagList();
 
-        PiSnowball outEntity = new PiSnowball(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
+        Snowball outEntity = new Snowball(pos.get(0).asFloat(), pos.get(1).asFloat(), pos.get(2).asFloat());
         outEntity.motion = new float[] {motion.get(0).asFloat(), motion.get(1).asFloat(), motion.get(2).asFloat()};
         outEntity.rotation = new float[] {rotation.get(0).asFloat(), rotation.get(1).asFloat()};
         outEntity.fallDistance = entityTag.getFloat("FallDistance");

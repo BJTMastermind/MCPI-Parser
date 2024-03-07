@@ -1,9 +1,9 @@
 package me.bjtmastermind.mcpi_parser.entities;
 
-public class PiAnimal extends PiMob {
+public class Animal extends Mob {
     int age;
 
-    PiAnimal() {}
+    Animal() {}
 
     public int getAge() {
         return this.age;

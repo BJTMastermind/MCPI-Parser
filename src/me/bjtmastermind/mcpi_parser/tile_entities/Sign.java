@@ -3,13 +3,13 @@ package me.bjtmastermind.mcpi_parser.tile_entities;
 import me.bjtmastermind.mcpi_parser.enums.TileEntityType;
 import me.bjtmastermind.nbt.tag.CompoundTag;
 
-public class PiSign extends PiTileEntity {
+public class Sign extends TileEntity {
     private String text1;
     private String text2;
     private String text3;
     private String text4;
 
-    public PiSign(int x, int y, int z) {
+    public Sign(int x, int y, int z) {
         this.id = TileEntityType.SIGN.getID();
         this.x = x;
         this.y = y;
@@ -79,8 +79,8 @@ public class PiSign extends PiTileEntity {
         return tileEntity;
     }
 
-    public static PiSign fromCompoundTag(CompoundTag nbtTileEntity) {
-        PiSign tileEntity = new PiSign(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
+    public static Sign fromCompoundTag(CompoundTag nbtTileEntity) {
+        Sign tileEntity = new Sign(nbtTileEntity.getInt("x"), nbtTileEntity.getInt("y"), nbtTileEntity.getInt("z"));
         tileEntity.text1 = nbtTileEntity.getString("Text1");
         tileEntity.text2 = nbtTileEntity.getString("Text2");
         tileEntity.text3 = nbtTileEntity.getString("Text3");

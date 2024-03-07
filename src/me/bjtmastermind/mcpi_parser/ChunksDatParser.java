@@ -15,11 +15,11 @@ import me.bjtmastermind.mcpi_parser.utils.LittleEndianUtils;
 
 public class ChunksDatParser {
 
-    public HashMap<String, PiChunk> parse(String filepath) throws IOException {
+    public HashMap<String, Chunk> parse(String filepath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filepath));
         ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
 
-        HashMap<String, PiChunk> chunks = new HashMap<>();
+        HashMap<String, Chunk> chunks = new HashMap<>();
 
         int chunkX = 0;
         int chunkZ = 0;
@@ -34,7 +34,7 @@ public class ChunksDatParser {
                 byte[] chunkData = new byte[chunkDataSize];
                 buffer.get(chunkLocation, chunkData, 0, chunkDataSize);
 
-                PiChunk chunk = new PiChunk(chunkX, chunkZ);
+                Chunk chunk = new Chunk(chunkX, chunkZ);
 
                 int bytesCounted = 0;
 
@@ -70,7 +70,7 @@ public class ChunksDatParser {
         return chunks;
     }
 
-    public void assemble(String filepath, HashMap<String, PiChunk> chunks) {
+    public void assemble(String filepath, HashMap<String, Chunk> chunks) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream rawOutput = new DataOutputStream(baos);
 
@@ -78,7 +78,7 @@ public class ChunksDatParser {
             // First pass: Insert chunk indexes
             for (int z = 0, sectorsFromStart = 1; z < 32; z++) {
                 for (int x = 0; x < 32; x++) {
-                    PiChunk chunk = chunks.get(String.format("%d,%d", x, z));
+                    Chunk chunk = chunks.get(String.format("%d,%d", x, z));
 
                     if (chunk == null) {
                         rawOutput.write(LittleEndianUtils.intAsLEByteArray(0));
@@ -94,7 +94,7 @@ public class ChunksDatParser {
             // Second pass: Insert chunk data
             for (int z = 0; z < 32; z++) {
                 for (int x = 0; x < 32; x++) {
-                    PiChunk chunk = chunks.get(String.format("%d,%d", x, z));
+                    Chunk chunk = chunks.get(String.format("%d,%d", x, z));
 
                     if (chunk == null) {
                         continue;

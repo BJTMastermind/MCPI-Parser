@@ -1,12 +1,12 @@
 package me.bjtmastermind.mcpi_parser.entities;
 
-public class PiMob extends PiEntity {
+public class Mob extends Entity {
     short attackTime;
     short deathTime;
     short health;
     short hurtTime;
 
-    PiMob() {}
+    Mob() {}
 
     public short getAttackTime() {
         return this.attackTime;
